@@ -4,10 +4,11 @@ import React from "react";
 import sampleData from "../sample-data"
 import Header from "./Header"
 import WidgetDetail from "./WidgetDetail"
+import Order from "./Order"
 
 class App extends React.Component {
   state = {
-    infos: {},
+    widgets: {},
     order: {}
   }
 
@@ -30,10 +31,17 @@ class App extends React.Component {
   deleteWidget = (data) => {}
 
   loadSampleData = () => {
-    this.setState({infos: sampleData})
+    this.setState({widgets: sampleData})
   }
 
-  addToOrder = key => {}
+  addToOrder = key => {
+    //1. take a copy of state
+    const order = {...this.state.order};
+    //2. add new key to order obj, with value of 1 || or update number in order
+    order[key] = order[key] + 1 || 1;
+    //3. set state
+    this.setState({ order: order});
+  }
 
   removeFromOrder = key => {}
 
@@ -45,16 +53,22 @@ class App extends React.Component {
           {/* widget list */}
         <h4>Widget List</h4>
         <ul className="widget-list-container">
-        {Object.keys(this.state.infos).map(key => (
+        {Object.keys(this.state.widgets).map( (key) => (
           <WidgetDetail 
             key={key}
             index={key}
-            details={this.state.infos[key]}
+            details={this.state.widgets[key]}
             addToOrder={this.addToOrder}/>
         ))}
         
         </ul>
         </div>
+        <Order 
+          widgets={this.state.widgets}
+          order={this.state.order}
+          removeFromOrder={this.removeFromOrder}
+        />
+
         
 
       </div>
