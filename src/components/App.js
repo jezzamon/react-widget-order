@@ -1,10 +1,11 @@
 import React from "react";
 // import PropTypes from "prop-types";
 
-import sampleData from "../sample-data"
-import Header from "./Header"
-import WidgetDetail from "./WidgetDetail"
-import Order from "./Order"
+import sampleData from "../sample-data";
+import Header from "./Header";
+import WidgetDetail from "./WidgetDetail";
+import Order from "./Order";
+import Inventory from "./Inventory";
 
 class App extends React.Component {
   state = {
@@ -24,11 +25,38 @@ class App extends React.Component {
 
   }
 
-  addWidget = (data) => {}
+  addWidget = (widget) => {
+    //to changes state need to use react setState API
+    // 1. Take a copy of the existing state
+    const widgets = {...this.state.widgets};
+    // 2. Add our new fish to that fishes object
+    widgets[`fish${Date.now()}`] = widget;
+    // 3. Set the new fishes object to state
+      // this will overwrite the current state on trigger a rerender of DOM
+    this.setState({
+      // fishes: fishes
+      widgets
+    });
+  }
 
-  updateWidget = (data) => {}
+  updateWidget = (key, updatedWidget) => {
+     // 1 take a copy of the current state
+     const widgets = {...this.state.widgets}
+     // 2 Update that state
+     widgets[key] = updatedWidget;
+     // 3 Set that to state
+     this.setState({ widgets: widgets });
+  }
 
-  deleteWidget = (data) => {}
+  deleteWidget = (key) => {
+    // 1. Take a copy of state
+    const widgets = { ...this.state.widgets };
+    // 2. Update the state
+    widgets[key] = null; // set to null for it work with firebase (otherwise "delete widgets[key]" is ok)
+    delete widgets[key]
+    // 3. Update state
+    this.setState({ widgets });
+  }
 
   loadSampleData = () => {
     this.setState({widgets: sampleData})
@@ -74,6 +102,13 @@ class App extends React.Component {
           widgets={this.state.widgets}
           order={this.state.order}
           removeFromOrder={this.removeFromOrder}
+        />
+        <Inventory 
+          addWidget={this.addWidget}
+          updateWidget={this.updateWidget}
+          deleteWidget={this.deleteWidget}
+          loadSampleData={this.loadSampleData}
+          widgets={this.state.widgets}
         />
 
         

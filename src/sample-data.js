@@ -3,7 +3,7 @@ import { genIds } from './helpers';
 const fishes = {
   "2f79000b-e7ef-44e9-a7c7-2ae9b088f8f9": {
     name: "Widget 1",
-    image: "http://lorempixel.com/200/100/technics/1",
+    image: "images/img1.jpg",
     desc:
       "Description 1.",
     price: 1724,
